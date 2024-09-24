@@ -1,0 +1,23 @@
+trigger:
+- master
+
+pool:
+  name: Devops-agent
+
+steps:
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'sonar-qube'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
+    cliProjectName: 'Devops'
+    cliSources: '.'
+
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarQubePublish@6
+  inputs:
+    pollingTimeoutSec: '300'
