@@ -10,7 +10,7 @@ steps:
     SonarQube: 'sonar-qube'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
+    cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS1'
     cliProjectName: 'Devops'
     cliSources: '.'
 
