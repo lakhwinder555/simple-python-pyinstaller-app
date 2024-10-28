@@ -7,7 +7,7 @@ pool:
 steps:
 - task: SonarQubePrepare@6
   inputs:
-    SonarQube: 'sonar-qube'
+    SonarQube: 'devops-sonarqube'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
