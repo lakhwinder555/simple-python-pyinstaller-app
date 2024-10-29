@@ -4,7 +4,30 @@ trigger:
 pool:
   name: Devops-agent
 
+variables:
+  sendgrid.api_key: $(SENDGRID_API_KEY) 
+
 steps:
+- task: Bash@3
+  displayName: 'Send Email Notification via SendGrid'
+  inputs:
+    targetType: 'inline'
+    script: |
+      curl --request POST \
+      --url https://api.sendgrid.com/v3/mail/send \
+      --header "Authorization: Bearer $(sendgrid.api_key)" \
+      --header 'Content-Type: application/json' \
+      --data '{
+        "personalizations": [{
+          "to": [{"email": "lakhwindersinghwins@gmail.com"}],
+          "subject": "Azure DevOps Notification"
+        }],
+        "from": {"email": "lakhwindrrsingh1313@gmail.com"},
+        "content": [{
+          "type": "text/plain",
+          "value": "Build completed successfully on Azure DevOps!"
+        }]
+      }'
 - task: SonarQubePrepare@6
   inputs:
     SonarQube: 'devops-sonarqube'
