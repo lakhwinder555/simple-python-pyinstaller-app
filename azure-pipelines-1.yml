@@ -38,7 +38,7 @@ steps:
       --header 'Content-Type: application/json' \
       --data '{
         "personalizations": [{
-          "to": [{"email": "lakhwindersinghwins@gmail.com"}],
+          "to": [{"email": "lakhwindrrsingh1313@gmail.com"}],
           "subject": "SonarQube Scan Report - Azure DevOps Pipeline"
         }],
         "from": {"email": "lakhwindrrsingh1313@gmail.com"},
