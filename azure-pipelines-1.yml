@@ -8,26 +8,6 @@ variables:
   sendgrid.api_key: $(SENDGRID_API_KEY) 
 
 steps:
-- task: Bash@3
-  displayName: 'Send Email Notification via SendGrid'
-  inputs:
-    targetType: 'inline'
-    script: |
-      curl --request POST \
-      --url https://api.sendgrid.com/v3/mail/send \
-      --header "Authorization: Bearer $(sendgrid.api_key)" \
-      --header 'Content-Type: application/json' \
-      --data '{
-        "personalizations": [{
-          "to": [{"email": "lakhwindersinghwins@gmail.com"}],
-          "subject": "Azure DevOps Notification"
-        }],
-        "from": {"email": "lakhwindrrsingh1313@gmail.com"},
-        "content": [{
-          "type": "text/plain",
-          "value": "Build completed successfully on Azure DevOps!"
-        }]
-      }'
 - task: SonarQubePrepare@6
   inputs:
     SonarQube: 'devops-sonarqube'
@@ -44,3 +24,26 @@ steps:
 - task: SonarQubePublish@6
   inputs:
     pollingTimeoutSec: '300'
+
+# Task to send SonarQube scan report email notification via SendGrid
+- task: Bash@3
+  displayName: 'Send SonarQube Scan Report Notification via SendGrid'
+  condition: succeeded()  # Send only if previous tasks succeed
+  inputs:
+    targetType: 'inline'
+    script: |
+      curl --request POST \
+      --url https://api.sendgrid.com/v3/mail/send \
+      --header "Authorization: Bearer $(sendgrid.api_key)" \
+      --header 'Content-Type: application/json' \
+      --data '{
+        "personalizations": [{
+          "to": [{"email": "lakhwindersinghwins@gmail.com"}],
+          "subject": "SonarQube Scan Report - Azure DevOps Pipeline"
+        }],
+        "from": {"email": "lakhwindrrsingh1313@gmail.com"},
+        "content": [{
+          "type": "text/plain",
+          "value": "The SonarQube scan for project Devops has completed successfully. You can review the scan results on the SonarQube dashboard."
+        }]
+      }'
