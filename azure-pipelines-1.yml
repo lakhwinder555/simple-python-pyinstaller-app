@@ -7,7 +7,7 @@ pool:
 parameters:
   - name: service
     type: string
-    default: 'ZumloWeb'
+    default: 'Devops'
 
 steps:
   - task: SonarQubePrepare@6
@@ -30,7 +30,7 @@ steps:
   # Task to send SonarQube scan report email notification via SendGrid
   - task: SendGridEmail@2
     inputs:
-      sendgrid.api_key: $(sendgrid_api_key)  # Use a variable instead of hardcoding the key
+      sendgrid.api_key: $(SENDGRID_API_KEY)  # Use a variable instead of hardcoding the key
       FromAddress: 'lakhwindersinghwins@gmail.com'
       ToAddresses: $(build.requestedForEmail)
       Subject: 'Devops : Sonar Scan Pipeline Report'
