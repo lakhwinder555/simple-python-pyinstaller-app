@@ -1,49 +1,58 @@
 trigger:
-- master
+  - master
 
 pool:
   name: Devops-agent
 
+parameters:
+  - name: service
+    type: string
+    default: 'Devops'
+
 variables:
-  sendgrid.api_key: $(SENDGRID_API_KEY) 
+  sendgrid.api_key: $(SENDGRID_API_KEY)
 
 steps:
-- task: SonarQubePrepare@6
-  inputs:
-    SonarQube: 'devops-sonarqube'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
-    cliProjectName: 'Devops'
-    cliSources: '.'
+  - task: SonarQubePrepare@6
+    inputs:
+      SonarQube: 'devops-sonarqube'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
+      cliProjectName: 'Devops'
+      cliSources: '.'
 
-- task: SonarQubeAnalyze@6
-  inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
+  - task: SonarQubeAnalyze@6
+    inputs:
+      jdkversion: 'JAVA_HOME_17_X64'
 
-- task: SonarQubePublish@6
-  inputs:
-    pollingTimeoutSec: '300'
+  - task: SonarQubePublish@6
+    inputs:
+      pollingTimeoutSec: '300'
 
-# Task to send SonarQube scan report email notification via SendGrid
-- task: Bash@3
-  displayName: 'Send SonarQube Scan Report Notification via SendGrid'
-  condition: succeeded()  # Send only if previous tasks succeed
-  inputs:
-    targetType: 'inline'
-    script: |
-      curl --request POST \
-      --url https://api.sendgrid.com/v3/mail/send \
-      --header "Authorization: Bearer $(sendgrid.api_key)" \
-      --header 'Content-Type: application/json' \
-      --data '{
-        "personalizations": [{
-          "to": [{"email": "lakhwindrrsingh1313@gmail.com"}],
-          "subject": "SonarQube Scan Report - Azure DevOps Pipeline"
-        }],
-        "from": {"email": "lakhwindrrsingh1313@gmail.com"},
-        "content": [{
-          "type": "text/plain",
-          "value": "The SonarQube scan for project Devops has completed successfully. You can review the scan results on the SonarQube dashboard."
-        }]
-      }'
+  # Task to send SonarQube scan report email notification via SendGrid
+  - task: SendGridEmail@2
+    inputs:
+      sendgrid.api_key: $(SENDGRID_API_KEY)
+      FromAddress: 'lakhwindrrsingh1313@gmail.com'
+      ToAddresses: $(build.requestedForEmail)
+      Subject: 'Devops : Sonar Scan Pipeline Report'
+      emailBodyFormat: 'InLine'
+      EmailBody: |
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Sonar Report</title>
+        </head>
+        <body>
+          <h1>
+            After the sonar pipeline was executed new report was generated in the sonar
+          </h1>
+          <b>Service Name : "${{ parameters.service }}"</b><br>
+          <a href="http://localhost:9000/dashboard?id=Devops_Devops_AZIivDHA8z0dVIDFaCRS">Sonar Report Link</a>
+        </body>
+        </html>
+      SendAsHTML: true
+    condition: always()
