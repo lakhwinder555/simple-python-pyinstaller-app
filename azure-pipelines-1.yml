@@ -33,7 +33,7 @@ steps:
   # Task to send SonarQube scan report email notification via SendGrid
   - task: SendGridEmail@2
     inputs:
-      sendgrid.api_key: $(SENDGRID_API_KEY)
+      sendgrid.api_key: ' $(SENDGRID_API_KEY)'
       FromAddress: 'lakhwindrrsingh1313@gmail.com'
       ToAddresses: $(build.requestedForEmail)
       Subject: 'Devops : Sonar Scan Pipeline Report'
