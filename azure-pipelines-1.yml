@@ -4,52 +4,23 @@ trigger:
 pool:
   name: Devops-agent
 
-parameters:
-  - name: service
-    type: string
-    default: 'Devops'
 
 steps:
-  - task: SonarQubePrepare@6
-    inputs:
-      SonarQube: 'devops-sonarqube'
-      scannerMode: 'CLI'
-      configMode: 'manual'
-      cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
-      cliProjectName: 'Devops'
-      cliSources: '.'
 
-  - task: SonarQubeAnalyze@6
-    inputs:
-      jdkversion: 'JAVA_HOME_17_X64'
+ - script: |
+    if [ ! -d /opt/sonar-scanner-5.0.1.3006-linux ]; then
+      sudo wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+      sudo unzip sonar-scanner-cli-5.0.1.3006-linux.zip -d /opt
+    fi
+    export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
+    export SONAR_SCANNER_HOME=/opt/sonar-scanner-5.0.1.3006-linux
+  displayName: 'Download and configure Sonar Scanner CLI'
 
-  - task: SonarQubePublish@6
-    inputs:
-      pollingTimeoutSec: '300'
+- script: |
+    sudo /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \
+      -Dsonar.projectKey=Devops_Devops_AZMqnY51fYehZNS78gW5 \
+      -Dsonar.sources=apps \
+      -Dsonar.host.url=http://localhost:9000 \
+      -Dsonar.login=sqa_bd219f1a17886fd5b21352a857f404ebcaf32c6d
+  displayName: 'Running Sonar Scan'
 
-  # Task to send SonarQube scan report email notification via SendGrid
-  - task: SendGridEmail@2
-    inputs:
-      sendgrid.api_key: $(SENDGRID_API_KEY)  # Use a variable instead of hardcoding the key
-      FromAddress: 'lakhwindersinghwins@gmail.com'
-      ToAddresses: $(build.requestedForEmail)
-      Subject: 'Devops : Sonar Scan Pipeline Report'
-      emailBodyFormat: 'InLine'
-      EmailBody: |
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>Sonar Report</title>
-        </head>
-        <body>
-          <h1>
-            After the sonar pipeline was executed, a new report was generated in Sonar.
-          </h1>
-          <b>Service Name: "${{ parameters.service }}"</b><br>
-          <a href="http://localhost:9000/dashboard?id=Devops_Devops_AZIivDHA8z0dVIDFaCRS">Sonar Report Link</a>
-        </body>
-        </html>
-      SendAsHTML: true
-    condition: always()
