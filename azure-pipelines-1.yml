@@ -1,8 +1,9 @@
 trigger:
   - master
 
+# Specify a Linux agent pool
 pool:
-  name: Devops-agent
+  vmImage: 'ubuntu-latest'
 
 steps:
 
