@@ -4,10 +4,9 @@ trigger:
 pool:
   name: Devops-agent
 
-
 steps:
 
- - script: |
+- script: |
     if [ ! -d /opt/sonar-scanner-5.0.1.3006-linux ]; then
       sudo wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
       sudo unzip sonar-scanner-cli-5.0.1.3006-linux.zip -d /opt
@@ -19,8 +18,7 @@ steps:
 - script: |
     sudo /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \
       -Dsonar.projectKey=Devops_Devops_AZMqnY51fYehZNS78gW5 \
-      -Dsonar.sources=apps \
+      -Dsonar.sources=. \
       -Dsonar.host.url=http://localhost:9000 \
       -Dsonar.login=sqa_bd219f1a17886fd5b21352a857f404ebcaf32c6d
   displayName: 'Running Sonar Scan'
-
