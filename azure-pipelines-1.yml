@@ -6,7 +6,12 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+    
 - script: |
     if [ ! -d /opt/sonar-scanner-5.0.1.3006-linux ]; then
       sudo wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
