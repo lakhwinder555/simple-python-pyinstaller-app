@@ -1,22 +1,23 @@
 trigger:
-  - master
+- master
 
 pool:
-  vmImage: 'DITS-DevOps'
+  name: Devops-agent
 
 steps:
-- task: SonarQubePrepare@7
+- task: SonarQubePrepare@6
   inputs:
-    SonarQube: 'sonar-qube'
-    scannerMode: 'cli'
+    SonarQube: 'devops-sonarqube'
+    scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZMqnY51fYehZNS78gW5'
+    cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
+    cliProjectName: 'Devops'
     cliSources: '.'
 
-- task: SonarQubeAnalyze@7
+- task: SonarQubeAnalyze@6
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
 
-- task: SonarQubePublish@7
+- task: SonarQubePublish@6
   inputs:
     pollingTimeoutSec: '300'
