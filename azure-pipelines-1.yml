@@ -1,0 +1,30 @@
+trigger:
+  - master
+
+# Specify a Linux agent pool
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
+- script: |
+    if [ ! -d /opt/sonar-scanner-5.0.1.3006-linux ]; then
+      sudo wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+      sudo unzip sonar-scanner-cli-5.0.1.3006-linux.zip -d /opt
+    fi
+    export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
+    export SONAR_SCANNER_HOME=/opt/sonar-scanner-5.0.1.3006-linux
+  displayName: 'Download and configure Sonar Scanner CLI'
+
+- script: |
+    sudo /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \
+      -Dsonar.projectKey=Devops_Devops_AZMqnY51fYehZNS78gW5 \
+      -Dsonar.sources=. \
+      -Dsonar.host.url=http://localhost:9000 \
+      -Dsonar.login=sqa_bd219f1a17886fd5b21352a857f404ebcaf32c6d
+  displayName: 'Running Sonar Scan'
