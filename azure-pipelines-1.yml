@@ -2,7 +2,7 @@ trigger:
   - master
 
 pool:
-  vmImage: 'Devops-agent'
+  vmImage: 'DITS-DevOps'
 
 steps:
 - task: SonarQubePrepare@7
