@@ -5,20 +5,18 @@ pool:
   name: Devops-agent
 
 steps:
-- script: |
-    if [ ! -d /opt/sonar-scanner-5.0.1.3006-linux ]; then
-      sudo wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-      sudo unzip sonar-scanner-cli-5.0.1.3006-linux.zip -d /opt
-    fi
-    export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
-    export SONAR_SCANNER_HOME=/opt/sonar-scanner-5.0.1.3006-linux
-  displayName: 'Download and configure Sonar Scanner CLI'
+- task: SonarQubePrepare@7
+  inputs:
+    SonarQube: 'sonarqube-assignment'
+    scannerMode: 'cli'
+    configMode: 'manual'
+    cliProjectKey: 'Devops_Devops_AZNmrV1aEPcWYCWzZrGR'
+    cliSources: '.'
 
-- script: |
-    sudo /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \
-      -Dsonar.projectKey=Devops_Devops_AZNmrV1aEPcWYCWzZrGR \
-      -Dsonar.sources=. \
-      -Dsonar.host.url=http://52.183.95.195:9000 \
-      -Dsonar.login=sqa_33f97ad201c83fa918296f12f7d09cb4173e8c2c
-  displayName: 'Running Sonar Scan'
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+- task: SonarQubePublish@7
+  inputs:
+    pollingTimeoutSec: '300'
 
