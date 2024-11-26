@@ -13,8 +13,7 @@ steps:
     cliProjectKey: '$(sonar_project_key)'
     cliProjectName: 'devops'
     cliSources: '.'
-    extraProperties: |
-      sonar.branch.name=$(Build.SourceBranchName)
+    
 
 - task: SonarQubeAnalyze@7
   inputs:
