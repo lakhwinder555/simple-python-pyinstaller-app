@@ -5,19 +5,18 @@ pool:
   name: Devops-agent
 
 steps:
-- task: SonarQubePrepare@6
+- task: SonarQubePrepare@7
   inputs:
-    SonarQube: 'devops-sonarqube'
-    scannerMode: 'CLI'
+    SonarQube: 'sonarqube-assignment'
+    scannerMode: 'cli'
     configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
-    cliProjectName: 'Devops'
+    cliProjectKey: 'Devops_Devops_AZNmrV1aEPcWYCWzZrGR'
+    cliProjectName: 'devops'
     cliSources: '.'
 
-- task: SonarQubeAnalyze@6
+- task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
-
-- task: SonarQubePublish@6
+- task: SonarQubePublish@7
   inputs:
     pollingTimeoutSec: '300'
