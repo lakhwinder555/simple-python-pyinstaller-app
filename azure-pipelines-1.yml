@@ -10,13 +10,16 @@ steps:
     SonarQube: 'sonarqube-assignment'
     scannerMode: 'cli'
     configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZNmrV1aEPcWYCWzZrGR'
+    cliProjectKey: '$(sonar_project_key)'
+    cliProjectName: 'devops'
     cliSources: '.'
+    extraProperties: |
+      sonar.branch.name=$(Build.SourceBranchName)
 
 - task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
+    
 - task: SonarQubePublish@7
   inputs:
     pollingTimeoutSec: '300'
-
