@@ -13,6 +13,8 @@ steps:
     cliProjectKey: '$(sonar_project_key)'
     cliProjectName: 'devops'
     cliSources: '.'
+    cliOptions: '-X'  # Enables debug logging
+
     
 
 - task: SonarQubeAnalyze@7
