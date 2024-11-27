@@ -10,10 +10,9 @@ steps:
     SonarQube: 'sonarque-assignment-2'
     scannerMode: 'cli'
     configMode: 'manual'
-    cliProjectKey: '$(sonar_project_key)'
+    cliProjectKey: 'Devops_Devops_AZNmrV1aEPcWYCWzZrGR'
     cliProjectName: 'devops'
     cliSources: '.'
-    cliOptions: '-X'  # Enables debug logging
 
     
 
