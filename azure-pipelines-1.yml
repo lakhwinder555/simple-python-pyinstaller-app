@@ -14,7 +14,6 @@ steps:
     cliProjectName: 'devops'
     cliSources: '.'
 
-    
 
 - task: SonarQubeAnalyze@7
   inputs:
