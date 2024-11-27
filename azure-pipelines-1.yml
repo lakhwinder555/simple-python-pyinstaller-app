@@ -7,14 +7,13 @@ pool:
 steps:
 - task: SonarQubePrepare@7
   inputs:
-    SonarQube: 'sonarqube-assignment'
+    SonarQube: 'sonarque-assignment-2'
     scannerMode: 'cli'
     configMode: 'manual'
     cliProjectKey: '$(sonar_project_key)'
     cliProjectName: 'devops'
     cliSources: '.'
-    extraProperties: |
-      sonar.branch.name=$(Build.SourceBranchName)
+    
 
 - task: SonarQubeAnalyze@7
   inputs:
