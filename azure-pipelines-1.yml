@@ -2,20 +2,9 @@ trigger:
 - master
 
 pool:
-  name: Devops-agent  # Ensure this is a Windows-based agent
+  name: Devops-agent
 
 steps:
-- script: |
-    echo "Stopping SonarQube service..."
-    net stop SonarQube
-    echo "Clearing SonarQube cache..."
-    rmdir /S /Q C:\SonarQube\data\web
-    echo "Starting SonarQube service..."
-    net start SonarQube
-    echo "SonarQube cache cleared and service restarted successfully."
-  displayName: Clear SonarQube Cache
-  condition: always()  # Ensure this step runs even if a previous task fails
-
 - task: SonarQubePrepare@7
   inputs:
     SonarQube: 'devops'
@@ -28,7 +17,7 @@ steps:
 - task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
-
+    
 - task: SonarQubePublish@7
   inputs:
     pollingTimeoutSec: '1200'
