@@ -7,13 +7,12 @@ pool:
 steps:
 - task: SonarQubePrepare@7
   inputs:
-    SonarQube: 'sonarque-assignment-2'
+    SonarQube: 'devops'
     scannerMode: 'cli'
     configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZNmrV1aEPcWYCWzZrGR'
+    cliProjectKey: 'Devops_Devops_AZNxmZ_RwO52hsj8ib-0'
     cliProjectName: 'devops'
     cliSources: '.'
-
 
 - task: SonarQubeAnalyze@7
   inputs:
