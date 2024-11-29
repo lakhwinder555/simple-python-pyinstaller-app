@@ -13,7 +13,7 @@ steps:
     SonarQube: 'sonarqube-assignment-3'
     scannerMode: 'cli'
     configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZN20H5TvMmlgDjSozm8'
+    cliProjectKey: 'Devops_Devops_AZN3D2fhvhUQAL42UQy8'
     cliProjectName: 'devops'
     cliSources: '.'
 
