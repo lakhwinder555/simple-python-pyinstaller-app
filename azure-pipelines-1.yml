@@ -20,4 +20,4 @@ steps:
     
 - task: SonarQubePublish@7
   inputs:
-    pollingTimeoutSec: '1200'
+    pollingTimeoutSec: '300'
