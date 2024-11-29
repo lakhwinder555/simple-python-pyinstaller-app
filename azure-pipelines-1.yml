@@ -4,6 +4,9 @@ trigger:
 pool:
   name: Devops-agent
 
+variables:
+  system.debug: true
+
 steps:
 - task: SonarQubePrepare@7
   inputs:
