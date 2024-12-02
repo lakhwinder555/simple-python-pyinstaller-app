@@ -2,7 +2,7 @@ trigger:
 - master
 
 pool:
-  name: Devops-agent
+  name: Default
 
 steps:
 - task: SonarQubePrepare@7
