@@ -1,0 +1,20 @@
+trigger:
+- master
+
+pool:
+  vmImage: Devops-agent
+
+steps:
+- task: SonarQubePrepare@7
+  inputs:
+    SonarQube: 'sonarqube-assignment-3'
+    scannerMode: 'cli'
+    configMode: 'file'
+
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarQubePublish@7
+  inputs:
+    pollingTimeoutSec: '300'
